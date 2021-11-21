@@ -1,13 +1,14 @@
 from django.views.generic import View
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .forms import PostCreateForm
 from .models import Post
 
 # Create your views here.
 class BlogListView(View):
     def get(self, request, *args, **kwargs):
+        posts = Post.objects.all()
         context={
-
+            'posts':posts 
         }
         return render(request, 'blog_list.html', context)
 
@@ -29,8 +30,16 @@ class BlogCreateView(View):
                 p, created = Post.objects.get_or_create(title=title, content=content)
                 p.save()
                 return redirect('blog:home')
-                
+
         context={
 
         }
         return render(request, 'blog_create.html', context)
+
+class BlogDetailView(View):
+    def get(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        context={
+            'post':post
+        }
+        return render(request, 'blog_detail.html', context)
