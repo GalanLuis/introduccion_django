@@ -1,0 +1,10 @@
+<form method="POST">
+{% csrf_token %}
+    title{{form.title}}
+    <br>
+    content{{form.content}}
+    <button type="submit">Update</button>
+</form>
+
+<br><br>
+<a href="{% url 'blog:home' %}">Regresar al blog aqui</a>
